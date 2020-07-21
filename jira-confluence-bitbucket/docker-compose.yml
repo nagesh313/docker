@@ -1,22 +1,27 @@
-version: '3.4'
+version: "3.4"
 services:
   jira:
-    image: cptactionhank/atlassian-jira:7.9.2
+    image: atlassian/jira-software
     container_name: jira
     restart: always
     links:
       - database
     volumes:
-      - jira-data:/var/atlassian/jira
+      - jira-data:/var/atlassian/application-data/jira
+    ports:
+      - 8080:8080
 
   confluence:
-    image: cptactionhank/atlassian-confluence:6.9.0
+    image: atlassian/confluence-server
     container_name: confluence
     restart: always
     links:
       - database
     volumes:
-      - confluence-data:/var/atlassian/confluence
+      - confluence-data:/var/atlassian/application-data/confluence
+    ports:
+      - 8090:8090
+      - 8091:8091
 
   bitbucket:
     image: atlassian/bitbucket-server:5.10.1
@@ -26,13 +31,21 @@ services:
       - database
     volumes:
       - bitbucket-data:/var/atlassian/application-data/bitbucket
-
+    ports:
+      - 7990:7990
+      - 7999:7999
   database:
     image: postgres:9.4
     container_name: postgres
     restart: always
     volumes:
       - database-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_PASSWORD: admin
+
+    ports:
+      - 5432:5432
 volumes:
   jira-data:
   confluence-data:
