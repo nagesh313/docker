@@ -5,7 +5,9 @@ services:
 
 env:
   DOCKER_COMPOSE_VERSION: 1.23.2
-
+cache:
+  directories:
+  - docker_images
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -17,10 +19,6 @@ before_install:
 before_script:
   - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
 
-script:
-  - docker-compose exec users python manage.py test
-  - docker-compose exec users black project
-  - docker-compose exec users flake8 project
 deploy:
  provider: heroku
  api-key: 
