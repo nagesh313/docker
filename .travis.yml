@@ -15,7 +15,7 @@ before_install:
   - pwd
 
 before_script:
-  - docker-compose up /jira-confluence-bitbucket/docker-compose.yml -d --build
+  - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
 
 script:
   - docker-compose exec users python manage.py test
