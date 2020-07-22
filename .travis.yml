@@ -28,5 +28,5 @@ deploy:
  api-key: 
   secure: $HEROKU_API_KEY
  app: test-jira-app
-  on:
-    branch: jira
+ on:
+  branch: jira
