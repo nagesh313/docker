@@ -19,6 +19,8 @@ script:
   - docker-compose exec users python manage.py test
   - docker-compose exec users black project
   - docker-compose exec users flake8 project
-
-after_script:
-  - docker-compose down
+deploy:
+ provider: heroku
+ api-key: 
+  secure: $HEROKU_API_KEY
+ app: test-jira-app
