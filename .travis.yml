@@ -16,8 +16,7 @@ before_install:
 
 before_script:
   - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
-script:
-  - docker-compose up -d
+  
 deploy:
  provider: heroku
  api-key: 
