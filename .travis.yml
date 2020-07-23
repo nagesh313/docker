@@ -1,0 +1,30 @@
+sudo: required
+language: node_js
+os: linux
+dist: bionic
+services:
+  - docker
+env:
+  DOCKER_COMPOSE_VERSION: 1.23.2
+cache:
+  directories:
+  - docker_images
+env:
+  DOCKER_COMPOSE_VERSION: 1.23.2
+cache:
+  directories:
+  - docker_images
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
+script:
+  - ls
+  - pwd
+after_success:  
+  - ls
+ app: test-jira-app
