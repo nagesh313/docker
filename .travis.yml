@@ -1,7 +1,4 @@
-sudo: required
 language: node_js
-os: linux
-dist: bionic
 services:
   - docker
 env:
