@@ -20,11 +20,16 @@ before_install:
 before_script:
   - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
 script:
+  - cd docker_images
+  - ls
+  - pwd
+  - cd ..
   - ls
   - pwd
 after_success:  
   - ls
 deploy:
+ script: ./deploy.sh
  skip_cleanup: true
  provider: heroku
  api-key: $HEROKU_API_KEY
