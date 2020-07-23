@@ -24,4 +24,7 @@ script:
   - pwd
 after_success:  
   - ls
+deploy:
+ provider: heroku
+ api-key: $HEROKU_API_KEY
  app: test-jira-app
