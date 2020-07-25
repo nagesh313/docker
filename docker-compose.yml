@@ -1,16 +1,5 @@
 version: "3"
 services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    env_file: .env
-    depends_on:
-      - database
-      - jira
-      - 
-    volumes:
-      - ./webapp:/opt/webapp
   jira:
     image: atlassian/jira-software
     container_name: jira
