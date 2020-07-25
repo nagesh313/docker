@@ -4,9 +4,7 @@ services:
 before_script:
   - docker pull atlassian/jira-software || true
 script:
-  - docker build --pull --cache-from atlassian/jira-software --tag nagesh313/test-jira-app .
-  - docker run test-jira-app
-
+  - docker-compose up
 # after_script:
 #   - docker images
 
