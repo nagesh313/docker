@@ -1,0 +1,30 @@
+version: "3"
+services:
+  jira:
+    image: atlassian/jira-software
+    container_name: jira
+    restart: always
+    links:
+      - database
+    volumes:
+      - jira-data:/var/atlassian/application-data/jira
+    ports:
+      - 8080:8080
+
+  database:
+    image: postgres:9.4
+    container_name: postgres
+    restart: always
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_PASSWORD: admin
+
+    ports:
+      - 5432:5432
+volumes:
+  jira-data:
+  confluence-data:
+  bitbucket-data:
+  database-data:
