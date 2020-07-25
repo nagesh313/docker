@@ -29,7 +29,7 @@ script:
 after_success:  
   - ls
 deploy:
- script: heroku container:push jira
+ script: heroku container:push jira web database
  skip_cleanup: true
  provider: heroku
  api-key: $HEROKU_API_KEY
