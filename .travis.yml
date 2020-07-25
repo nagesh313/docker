@@ -1,36 +1,19 @@
-language: node_js
+sudo: required
 services:
   - docker
-env:
-  DOCKER_COMPOSE_VERSION: 1.23.2
-cache:
-  directories:
-  - docker_images
-env:
-  DOCKER_COMPOSE_VERSION: 1.23.2
-cache:
-  directories:
-  - docker_images
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
 before_script:
-  - docker-compose -f jira-confluence-bitbucket/docker-compose.yml up -d --build
+  - docker pull atlassian/jira-software || true
 script:
-  - cd docker_images
-  - ls
-  - pwd
-  - cd ..
-  - ls
-  - pwd
-after_success:  
-  - ls
+  - docker build --pull --cache-from atlassian/jira-software --tag nagesh313/test-jira-app .
+  - docker run test-jira-app
+
+# after_script:
+#   - docker images
+
+# before_deploy:
+#   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
 deploy:
- script: heroku container:push jira web database
- skip_cleanup: true
- provider: heroku
- api-key: $HEROKU_API_KEY
- app: test-jira-app
+  provider: script
+  script: docker push nagesh313/test-jira-app
+  on:
+    branch: master
