@@ -1,6 +1,7 @@
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+import axios, { AxiosRequestConfig } from 'axios';
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
 
 // Set OpenShift connection parameters
 const openshiftHost = 'your.openshift.cluster.url';
@@ -16,7 +17,7 @@ const dockerBuildArgs = [
   `IMAGE_NAME=${imageName}`
 ];
 
-async function buildDockerImage() {
+async function buildDockerImage(): Promise<void> {
   try {
     // Read Dockerfile content
     const dockerfileContent = fs.readFileSync(path.join(contextPath, dockerfile), 'utf-8');
@@ -60,7 +61,7 @@ async function buildDockerImage() {
       httpsAgent: new https.Agent({
         rejectUnauthorized: false
       })
-    });
+    } as AxiosRequestConfig);
 
     // Stream Docker build output to OpenShift build
     const buildName = buildResponse.data.metadata.name;
@@ -74,7 +75,7 @@ async function buildDockerImage() {
       httpsAgent: new https.Agent({
         rejectUnauthorized: false
       })
-    }));
+    } as AxiosRequestConfig));
     console.log('Docker build output streaming started');
   } catch (error) {
     console.error(`Error starting build: ${error}`);
