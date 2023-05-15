@@ -1,0 +1,26 @@
+FROM registry.access.redhat.com/ubi8/ubi
+
+# Install Java 8
+RUN yum install -y java-1.8.0-openjdk-devel
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the Spring Boot service JAR to the container
+COPY target/my-spring-boot-service.jar .
+
+# Install Hadoop HDFS
+RUN curl -s https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz | tar -xz && \
+    mv hadoop-3.2.1 /opt && \
+    ln -s /opt/hadoop-3.2.1 /opt/hadoop && \
+    rm -rf /opt/hadoop/share/doc
+
+# Set the Hadoop environment variables
+ENV HADOOP_HOME=/opt/hadoop
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+# Expose the Spring Boot service port
+EXPOSE 8080
+
+# Start the Spring Boot service
+CMD ["java", "-jar", "my-spring-boot-service.jar"]
